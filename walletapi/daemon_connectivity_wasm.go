@@ -76,8 +76,9 @@ func Connect(endpoint string) (err error) {
 		fmt.Printf("will use endpoint %s\n", "wss://"+ld+"/ws")
 		RPC_Client.WS, _, err = websocket.Dial(context.Background(), "wss://"+ld+"/ws", nil)
 	} else {
-		fmt.Printf("will use endpoint %s\n", "ws://"+Daemon_Endpoint+"/ws")
-		RPC_Client.WS, _, err = websocket.Dial(context.Background(), "ws://"+Daemon_Endpoint+"/ws", nil)
+		ld := strings.TrimPrefix(strings.ToLower(Daemon_Endpoint), "http://")
+		fmt.Printf("will use endpoint %s\n", "ws://"+ld+"/ws")
+		RPC_Client.WS, _, err = websocket.Dial(context.Background(), "ws://"+ld+"/ws", nil)
 	}
 
 	// notify user of any state change
