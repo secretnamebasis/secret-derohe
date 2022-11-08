@@ -47,11 +47,11 @@ func Keep_Connectivity() {
 			} else {
 				if IsDaemonOnline() {
 					var result string
-					if err := rpc_client.Call("DERO.Ping", nil, &result); err != nil {
+					if err := RPC_Client.Call("DERO.Ping", nil, &result); err != nil {
 						// fmt.Printf("Ping failed: %v", err)
-						rpc_client.RPC.Close()
-						rpc_client.WS = nil
-						rpc_client.RPC = nil
+						RPC_Client.RPC.Close()
+						RPC_Client.WS = nil
+						RPC_Client.RPC = nil
 						Connected = false
 						Connect("") // try to connect again
 

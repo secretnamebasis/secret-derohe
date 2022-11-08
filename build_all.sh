@@ -31,16 +31,16 @@ zip -r dero_windows_amd64_$version.zip dero_windows_amd64
 
 
 #macos needs universal fat binaries, so lets build them
-mkdir -p dero_darwin_universal
-go run github.com/randall77/makefat ./dero_darwin_universal/derod-darwin  ./dero_darwin_amd64/derod-darwin-amd64 ./dero_darwin_arm64/derod-darwin-arm64
-go run github.com/randall77/makefat ./dero_darwin_universal/explorer-darwin  ./dero_darwin_amd64/explorer-darwin-amd64 ./dero_darwin_arm64/explorer-darwin-arm64
-go run github.com/randall77/makefat ./dero_darwin_universal/dero-wallet-cli-darwin  ./dero_darwin_amd64/dero-wallet-cli-darwin-amd64 ./dero_darwin_arm64/dero-wallet-cli-darwin-arm64
-go run github.com/randall77/makefat ./dero_darwin_universal/dero-miner-darwin  ./dero_darwin_amd64/dero-miner-darwin-amd64 ./dero_darwin_arm64/dero-miner-darwin-arm64
-go run github.com/randall77/makefat ./dero_darwin_universal/simulator-darwin  ./dero_darwin_amd64/simulator-darwin-amd64 ./dero_darwin_arm64/simulator-darwin-arm64
+#mkdir -p dero_darwin_universal
+#go run github.com/randall77/makefat ./dero_darwin_universal/derod-darwin  ./dero_darwin_amd64/derod-darwin-amd64 ./dero_darwin_arm64/derod-darwin-arm64
+#go run github.com/randall77/makefat ./dero_darwin_universal/explorer-darwin  ./dero_darwin_amd64/explorer-darwin-amd64 ./dero_darwin_arm64/explorer-darwin-arm64
+#go run github.com/randall77/makefat ./dero_darwin_universal/dero-wallet-cli-darwin  ./dero_darwin_amd64/dero-wallet-cli-darwin-amd64 ./dero_darwin_arm64/dero-wallet-cli-darwin-arm64
+#go run github.com/randall77/makefat ./dero_darwin_universal/dero-miner-darwin  ./dero_darwin_amd64/dero-miner-darwin-amd64 ./dero_darwin_arm64/dero-miner-darwin-arm64
+#go run github.com/randall77/makefat ./dero_darwin_universal/simulator-darwin  ./dero_darwin_amd64/simulator-darwin-amd64 ./dero_darwin_arm64/simulator-darwin-arm64
 #go run github.com/randall77/makefat ./dero_darwin_universal/pong_server-darwin  ./dero_darwin_amd64/pong_server-darwin-amd64 ./dero_darwin_arm64/pong_server-darwin-arm64
 
-rm -rf dero_darwin_amd64
-rm -rf dero_darwin_arm64
+#rm -rf dero_darwin_amd64
+#rm -rf dero_darwin_arm64
 
 #all other platforms are okay with tar.gz
 find . -mindepth 1 -type d -not -name '*windows*'   -exec tar -cvzf {}.tar.gz {} \;

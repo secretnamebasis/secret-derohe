@@ -47,7 +47,7 @@ type Client struct {
 	RPC *jrpc2.Client
 }
 
-var rpc_client = &Client{}
+var RPC_Client = &Client{}
 
 // this is as simple as it gets
 // single threaded communication to get the daemon status and height
@@ -74,10 +74,10 @@ func Connect(endpoint string) (err error) {
 	if strings.HasPrefix(Daemon_Endpoint, "https") {
 		ld := strings.TrimPrefix(strings.ToLower(Daemon_Endpoint), "https://")
 		fmt.Printf("will use endpoint %s\n", "wss://"+ld+"/ws")
-		rpc_client.WS, _, err = websocket.Dial(context.Background(), "wss://"+ld+"/ws", nil)
+		RPC_Client.WS, _, err = websocket.Dial(context.Background(), "wss://"+ld+"/ws", nil)
 	} else {
 		fmt.Printf("will use endpoint %s\n", "ws://"+Daemon_Endpoint+"/ws")
-		rpc_client.WS, _, err = websocket.Dial(context.Background(), "ws://"+Daemon_Endpoint+"/ws", nil)
+		RPC_Client.WS, _, err = websocket.Dial(context.Background(), "ws://"+Daemon_Endpoint+"/ws", nil)
 	}
 
 	// notify user of any state change
@@ -97,8 +97,8 @@ func Connect(endpoint string) (err error) {
 		return
 	}
 
-	input_output := rwc.NewNhooyr(rpc_client.WS)
-	rpc_client.RPC = jrpc2.NewClient(channel.RawJSON(input_output, input_output), &jrpc2.ClientOptions{OnNotify: Notify_broadcaster})
+	input_output := rwc.NewNhooyr(RPC_Client.WS)
+	RPC_Client.RPC = jrpc2.NewClient(channel.RawJSON(input_output, input_output), &jrpc2.ClientOptions{OnNotify: Notify_broadcaster})
 
 	return test_connectivity()
 }

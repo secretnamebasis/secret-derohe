@@ -24,37 +24,37 @@ package walletapi
  */
 //import "io"
 //import "os"
-import "fmt"
-import "time"
-import "sync"
-import "bytes"
-import "math/big"
+import (
+	"bytes"
+	"context"
+	"encoding/hex"
+	"fmt"
+	"math/big"
+	"runtime/debug"
+	"strings"
+	"sync"
+	"time"
+
+	"github.com/creachadair/jrpc2"
+	"github.com/deroproject/derohe/block"
+	"github.com/deroproject/derohe/config"
+	"github.com/deroproject/derohe/cryptography/bn256"
+	"github.com/deroproject/derohe/cryptography/crypto"
+	"github.com/deroproject/derohe/errormsg"
+	"github.com/deroproject/derohe/globals"
+	"github.com/deroproject/derohe/rpc"
+	"github.com/deroproject/derohe/transaction"
+)
 
 //import "bufio"
-import "strings"
-import "context"
 
 //import "runtime"
 //import "compress/gzip"
-import "encoding/hex"
-
-import "runtime/debug"
 
 //import "github.com/vmihailenco/msgpack"
 
 //import "github.com/gorilla/websocket"
 //import "github.com/mafredri/cdp/rpcc"
-
-import "github.com/deroproject/derohe/rpc"
-import "github.com/deroproject/derohe/block"
-import "github.com/deroproject/derohe/config"
-import "github.com/deroproject/derohe/globals"
-import "github.com/deroproject/derohe/cryptography/crypto"
-import "github.com/deroproject/derohe/errormsg"
-import "github.com/deroproject/derohe/transaction"
-import "github.com/deroproject/derohe/cryptography/bn256"
-
-import "github.com/creachadair/jrpc2"
 
 // this global variable should be within wallet structure
 var Connected bool = false
@@ -144,7 +144,7 @@ func test_connectivity() (err error) {
 	var result string
 
 	// Issue a call with a response.
-	if err = rpc_client.Call("DERO.Echo", []string{"hello", "world"}, &result); err != nil {
+	if err = RPC_Client.Call("DERO.Echo", []string{"hello", "world"}, &result); err != nil {
 		logger.V(1).Error(err, "DERO.Echo Call failed:")
 		Connected = false
 		return
@@ -153,7 +153,7 @@ func test_connectivity() (err error) {
 
 	var info rpc.GetInfo_Result
 	// Issue a call with a response.
-	if err = rpc_client.Call("DERO.GetInfo", nil, &info); err != nil {
+	if err = RPC_Client.Call("DERO.GetInfo", nil, &info); err != nil {
 		logger.V(1).Error(err, "DERO.GetInfo Call failed:")
 		Connected = false
 		return
@@ -238,7 +238,7 @@ func buildurl(endpoint string) string {
 // single threaded communication to get the daemon status and height
 // this will tell whether the wallet can connection successfully to  daemon or not
 func IsDaemonOnline() bool {
-	if rpc_client.WS == nil || rpc_client.RPC == nil {
+	if RPC_Client.WS == nil || RPC_Client.RPC == nil {
 		return false
 	}
 	return true
@@ -297,7 +297,7 @@ func (w *Wallet_Memory) NameToAddress(name string) (addr string, err error) {
 	}
 
 	var result rpc.NameToAddress_Result
-	if err = rpc_client.Call("DERO.NameToAddress", rpc.NameToAddress_Params{Name: name, TopoHeight: -1}, &result); err != nil {
+	if err = RPC_Client.Call("DERO.NameToAddress", rpc.NameToAddress_Params{Name: name, TopoHeight: -1}, &result); err != nil {
 		return
 	}
 
@@ -326,7 +326,7 @@ func (w *Wallet_Memory) SendTransaction(tx *transaction.Transaction) (err error)
 	params := rpc.SendRawTransaction_Params{Tx_as_hex: hex.EncodeToString(tx.Serialize())}
 	var result rpc.SendRawTransaction_Result
 
-	if err := rpc_client.Call("DERO.SendRawTransaction", params, &result); err != nil {
+	if err := RPC_Client.Call("DERO.SendRawTransaction", params, &result); err != nil {
 		return err
 	}
 
@@ -355,7 +355,7 @@ func (w *Wallet_Memory) GetSelfEncryptedBalanceAtTopoHeight(scid crypto.Hash, to
 		}
 	}()
 
-	err = rpc_client.Call("DERO.GetEncryptedBalance", rpc.GetEncryptedBalance_Params{SCID: scid, Address: w.GetAddress().String(), TopoHeight: topoheight}, &r)
+	err = RPC_Client.Call("DERO.GetEncryptedBalance", rpc.GetEncryptedBalance_Params{SCID: scid, Address: w.GetAddress().String(), TopoHeight: topoheight}, &r)
 	return
 }
 
@@ -387,7 +387,7 @@ func (w *Wallet_Memory) GetEncryptedBalanceAtTopoHeight(scid crypto.Hash, topohe
 	var result rpc.GetEncryptedBalance_Result
 
 	// Issue a call with a response.
-	if err = rpc_client.Call("DERO.GetEncryptedBalance", rpc.GetEncryptedBalance_Params{SCID: scid, Address: accountaddr, TopoHeight: topoheight}, &result); err != nil {
+	if err = RPC_Client.Call("DERO.GetEncryptedBalance", rpc.GetEncryptedBalance_Params{SCID: scid, Address: accountaddr, TopoHeight: topoheight}, &result); err != nil {
 		logger.Error(err, "DERO.GetEncryptedBalance Call failed:")
 
 		if strings.Contains(strings.ToLower(err.Error()), strings.ToLower(errormsg.ErrAccountUnregistered.Error())) && accountaddr == w.GetAddress().String() && scid.IsZero() {
@@ -487,7 +487,7 @@ func (w *Wallet_Memory) Random_ring_members(scid crypto.Hash) (alist []string) {
 	//fmt.Printf("getting ring members %s  %s\n",scid.String(), debug.Stack())
 
 	// Issue a call with a response.
-	if err := rpc_client.Call("DERO.GetRandomAddress", rpc.GetRandomAddress_Params{SCID: scid}, &result); err != nil {
+	if err := RPC_Client.Call("DERO.GetRandomAddress", rpc.GetRandomAddress_Params{SCID: scid}, &result); err != nil {
 		logger.V(1).Error(err, "DERO.GetRandomAddress Call failed:")
 		return
 	}
@@ -537,7 +537,7 @@ func (w *Wallet_Memory) SyncHistory(scid crypto.Hash) (balance uint64) {
 		var result rpc.GetBlockHeaderByHeight_Result
 
 		// Issue a call with a response.
-		if err := rpc_client.Call("DERO.GetBlockHeaderByTopoHeight", rpc.GetBlockHeaderByTopoHeight_Params{TopoHeight: uint64(entries[i].TopoHeight)}, &result); err != nil {
+		if err := RPC_Client.Call("DERO.GetBlockHeaderByTopoHeight", rpc.GetBlockHeaderByTopoHeight_Params{TopoHeight: uint64(entries[i].TopoHeight)}, &result); err != nil {
 			logger.V(1).Error(err, "DERO.GetBlockHeaderByTopoHeight Call failed:")
 			return 0
 		}
@@ -727,7 +727,7 @@ func (w *Wallet_Memory) synchistory_block(scid crypto.Hash, topo int64) (err err
 
 	var bl block.Block
 	var bresult rpc.GetBlock_Result
-	if err = rpc_client.Call("DERO.GetBlock", rpc.GetBlock_Params{Height: uint64(topo)}, &bresult); err != nil {
+	if err = RPC_Client.Call("DERO.GetBlock", rpc.GetBlock_Params{Height: uint64(topo)}, &bresult); err != nil {
 		return fmt.Errorf("getblock rpc failed")
 	}
 
@@ -764,7 +764,7 @@ func (w *Wallet_Memory) synchistory_block(scid crypto.Hash, topo int64) (err err
 
 			//fmt.Printf("Requesting tx data %s\n", bl.Tx_hashes[i].String())
 
-			if err = rpc_client.Call("DERO.GetTransaction", tx_params, &tx_result); err != nil {
+			if err = RPC_Client.Call("DERO.GetTransaction", tx_params, &tx_result); err != nil {
 				return fmt.Errorf("gettransa rpc failed %s", err)
 			}
 

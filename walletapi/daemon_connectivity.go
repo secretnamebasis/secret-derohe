@@ -30,13 +30,14 @@ package walletapi
 //import "fmt"
 
 //import "net/url"
-import "net/http"
+import (
+	"net/http"
 
-import "github.com/deroproject/derohe/glue/rwc"
-
-import "github.com/creachadair/jrpc2"
-import "github.com/creachadair/jrpc2/channel"
-import "github.com/gorilla/websocket"
+	"github.com/creachadair/jrpc2"
+	"github.com/creachadair/jrpc2/channel"
+	"github.com/deroproject/derohe/glue/rwc"
+	"github.com/gorilla/websocket"
+)
 
 // there should be no global variables, so multiple wallets can run at the same time with different assset
 
@@ -47,7 +48,7 @@ type Client struct {
 	RPC *jrpc2.Client
 }
 
-var rpc_client = &Client{}
+var RPC_Client = &Client{}
 
 // this is as simple as it gets
 // single threaded communication to get the daemon status and height
@@ -58,7 +59,7 @@ func Connect(endpoint string) (err error) {
 
 	logger.V(1).Info("Daemon endpoint ", "address", Daemon_Endpoint_Active)
 
-	rpc_client.WS, _, err = websocket.DefaultDialer.Dial("ws://"+Daemon_Endpoint_Active+"/ws", nil)
+	RPC_Client.WS, _, err = websocket.DefaultDialer.Dial("ws://"+Daemon_Endpoint_Active+"/ws", nil)
 
 	// notify user of any state change
 	// if daemon connection breaks or comes live again
@@ -76,8 +77,8 @@ func Connect(endpoint string) (err error) {
 		return
 	}
 
-	input_output := rwc.New(rpc_client.WS)
-	rpc_client.RPC = jrpc2.NewClient(channel.RawJSON(input_output, input_output), &jrpc2.ClientOptions{OnNotify: Notify_broadcaster})
+	input_output := rwc.New(RPC_Client.WS)
+	RPC_Client.RPC = jrpc2.NewClient(channel.RawJSON(input_output, input_output), &jrpc2.ClientOptions{OnNotify: Notify_broadcaster})
 
 	return test_connectivity()
 }

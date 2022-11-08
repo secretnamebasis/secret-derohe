@@ -29,7 +29,7 @@ PLATFORMS="$PLATFORMS windows/amd64" # arm compilation not available for Windows
 
 
 #PLATFORMS_ARM="linux freebsd netbsd"
-PLATFORMS_ARM="linux"
+#PLATFORMS_ARM="linux"
 
 
 #PLATFORMS="linux/amd64"
