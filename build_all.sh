@@ -12,10 +12,10 @@ version=`cat ./config/version.go  | grep -i version |cut -d\" -f 2`
 
 
 cd $CURDIR
-bash $ABSDIR/build_package.sh "./cmd/derod"
-bash $ABSDIR/build_package.sh "./cmd/explorer"
-bash $ABSDIR/build_package.sh "./cmd/dero-wallet-cli"
-bash $ABSDIR/build_package.sh "./cmd/dero-miner"
+#bash $ABSDIR/build_package.sh "./cmd/derod"
+#bash $ABSDIR/build_package.sh "./cmd/explorer"
+#bash $ABSDIR/build_package.sh "./cmd/dero-wallet-cli"
+#bash $ABSDIR/build_package.sh "./cmd/dero-miner"
 bash $ABSDIR/build_package.sh "./cmd/simulator"
 #bash $ABSDIR/build_package.sh "./cmd/rpc_examples/pong_server"
 

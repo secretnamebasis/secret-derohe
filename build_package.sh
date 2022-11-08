@@ -11,13 +11,13 @@ ABSPATH=$(readlink -f $0)
 ABSDIR=$(dirname $ABSPATH)
 
 
-PLATFORMS="darwin/amd64 darwin/arm64" # amd64/arm64 only as of go1.16
+#PLATFORMS="darwin/amd64 darwin/arm64" # amd64/arm64 only as of go1.16
 PLATFORMS="$PLATFORMS windows/amd64" # arm compilation not available for Windows
-PLATFORMS="$PLATFORMS linux/amd64"
-PLATFORMS="$PLATFORMS linux/arm64"
+#PLATFORMS="$PLATFORMS linux/amd64"
+#PLATFORMS="$PLATFORMS linux/arm64"
 #PLATFORMS="$PLATFORMS linux/ppc64le"   is it common enough ??
 #PLATFORMS="$PLATFORMS linux/mips64le" # experimental in go1.6 is it common enough ??
-PLATFORMS="$PLATFORMS freebsd/amd64"
+#PLATFORMS="$PLATFORMS freebsd/amd64"
 #PLATFORMS="$PLATFORMS freebsd/arm64"
 #PLATFORMS="$PLATFORMS netbsd/amd64" # amd64 only as of go1.6
 #PLATFORMS="$PLATFORMS openbsd/amd64" # amd64 only as of go1.6
