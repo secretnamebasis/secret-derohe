@@ -16,17 +16,19 @@
 
 package walletapi
 
-import "runtime"
-import "fmt"
-import "sort"
-import "math/big"
-import "encoding/binary"
+import (
+	"encoding/binary"
+	"fmt"
+	"math/big"
+	"runtime"
+	"sort"
+
+	"github.com/deroproject/derohe/cryptography/bn256"
+	"github.com/deroproject/derohe/cryptography/crypto"
+)
 
 //import "github.com/mattn/go-isatty"
 //import "github.com/cheggaaa/pb/v3"
-
-import "github.com/deroproject/derohe/cryptography/crypto"
-import "github.com/deroproject/derohe/cryptography/bn256"
 
 // this file implements balance decoder whih has to be bruteforced
 // balance is a 64 bit field and total effort is 2^64
@@ -230,6 +232,8 @@ func (t *LookupTable) Lookup(p *bn256.G1, previous_balance uint64) (balance uint
 }
 
 // this should be tuned by anyone using this package
+/*
 func init() {
 	Initialize_LookupTable(1, 1<<16)
 }
+*/
