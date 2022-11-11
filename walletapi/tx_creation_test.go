@@ -16,31 +16,32 @@
 
 package walletapi
 
-import "io"
-import "os"
-import "fmt"
-import "time"
-import "testing"
-import "bytes"
+import (
+	"bytes"
+	"fmt"
+	"io"
+	"os"
+	"path/filepath"
+	"testing"
+	"time"
 
-//import "crypto/rand"
-import "path/filepath"
+	"github.com/docopt/docopt-go"
 
-//import "encoding/hex"
-//import "encoding/binary"
-//import "runtime/pprof"
+	//import "crypto/rand"
 
-import "github.com/docopt/docopt-go"
+	//import "encoding/hex"
+	//import "encoding/binary"
+	//import "runtime/pprof"
 
-import derodrpc "github.com/deroproject/derohe/cmd/derod/rpc"
-
-import "github.com/deroproject/derohe/globals"
-import "github.com/deroproject/derohe/config"
-import "github.com/deroproject/derohe/rpc"
-import "github.com/deroproject/derohe/blockchain"
-import "github.com/deroproject/derohe/transaction"
-import "github.com/deroproject/derohe/cryptography/crypto"
-import "github.com/deroproject/derohe/cryptography/bn256"
+	"github.com/deroproject/derohe/blockchain"
+	derodrpc "github.com/deroproject/derohe/cmd/derod/rpc"
+	"github.com/deroproject/derohe/config"
+	"github.com/deroproject/derohe/cryptography/bn256"
+	"github.com/deroproject/derohe/cryptography/crypto"
+	"github.com/deroproject/derohe/globals"
+	"github.com/deroproject/derohe/rpc"
+	"github.com/deroproject/derohe/transaction"
+)
 
 func init() {
 	globals.InitializeLog(io.Discard, io.Discard)
@@ -139,6 +140,24 @@ func simulator_chain_stop(chain *blockchain.Blockchain, rpcserver *derodrpc.RPCS
 	rpcserver.RPCServer_Stop()
 
 	chain.Shutdown() // shutdown chain subsysem
+}
+
+func Test_LookupTable(t *testing.T) {
+	Initialize_LookupTable(1, 1<<16)
+	buf, err := Balance_lookup_table.Serialize()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(buf)
+
+	var lookupTable *LookupTable
+	err = lookupTable.Deserialize(buf)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Log(lookupTable)
 }
 
 // this will test that the keys are placed properly and thus can be decoded by recievers

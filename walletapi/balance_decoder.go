@@ -17,7 +17,9 @@
 package walletapi
 
 import (
+	"bytes"
 	"encoding/binary"
+	"encoding/gob"
 	"fmt"
 	"math/big"
 	"runtime"
@@ -132,6 +134,28 @@ func Initialize_LookupTable(count int, table_size int) *LookupTable {
 	Balance_lookup_table = &t1
 
 	return &t1
+}
+
+func (t *LookupTable) Serialize() ([]byte, error) {
+	var buffer bytes.Buffer
+	enc := gob.NewEncoder(&buffer)
+	err := enc.Encode(t)
+	if err != nil {
+		return nil, err
+	}
+	return buffer.Bytes(), nil
+}
+
+func (t *LookupTable) Deserialize(buf []byte) error {
+	buffer := bytes.NewBuffer(buf)
+	dec := gob.NewDecoder(buffer)
+
+	err := dec.Decode(&t)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // convert point to balance
