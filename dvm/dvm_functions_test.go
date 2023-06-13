@@ -17,11 +17,13 @@
 package dvm
 
 //import "fmt"
-import "reflect"
-import "testing"
-import "encoding/hex"
+import (
+	"encoding/hex"
+	"reflect"
+	"testing"
 
-import "github.com/deroproject/derohe/cryptography/crypto"
+	"github.com/deroproject/derohe/cryptography/crypto"
+)
 
 // ensure 100% coverage of functions execution
 var execution_tests_functions = []struct {
@@ -263,6 +265,18 @@ var execution_tests_functions = []struct {
          	 End Function`,
 		"TestRun",
 		map[string]interface{}{"input": string("0123456789")},
+		nil,
+		Variable{Type: Uint64, ValueUint64: uint64(0)},
+	},
+	{
+		"exists",
+		`Function TestExists() Uint64
+		 10 IF EXISTS("input") THEN GOTO 30
+		 20 return 0
+		 30 return 1
+         	 End Function`,
+		"TestExists",
+		map[string]interface{}{},
 		nil,
 		Variable{Type: Uint64, ValueUint64: uint64(0)},
 	},
