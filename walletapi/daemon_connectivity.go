@@ -31,17 +31,16 @@ package walletapi
 
 //import "net/url"
 import (
-	"net/http"
-
 	"github.com/creachadair/jrpc2"
 	"github.com/creachadair/jrpc2/channel"
 	"github.com/deroproject/derohe/glue/rwc"
+	"github.com/deroproject/derohe/rpc"
 	"github.com/gorilla/websocket"
 )
 
 // there should be no global variables, so multiple wallets can run at the same time with different assset
 
-var netClient *http.Client
+//var netClient *http.Client
 
 type Client struct {
 	WS  *websocket.Conn
@@ -54,24 +53,22 @@ var RPC_Client = &Client{}
 // single threaded communication to get the daemon status and height
 // this will tell whether the wallet can connection successfully to  daemon or not
 func Connect(endpoint string) (err error) {
+	if endpoint == "" {
+		endpoint = Daemon_Endpoint
+	}
 
-	Daemon_Endpoint_Active = get_daemon_address()
-
-	logger.V(1).Info("Daemon endpoint ", "address", Daemon_Endpoint_Active)
-
-	RPC_Client.WS, _, err = websocket.DefaultDialer.Dial("ws://"+Daemon_Endpoint_Active+"/ws", nil)
+	RPC_Client.WS, _, err = websocket.DefaultDialer.Dial(endpoint, nil)
 
 	// notify user of any state change
 	// if daemon connection breaks or comes live again
 	if err == nil {
 		if !Connected {
-			logger.V(1).Info("Connection to RPC server successful", "address", "ws://"+Daemon_Endpoint_Active+"/ws")
+			logger.V(1).Info("Connection to RPC server successful", "endpoint", endpoint)
 			Connected = true
 		}
 	} else {
-
 		if Connected {
-			logger.V(1).Error(err, "Connection to RPC server Failed", "endpoint", "ws://"+Daemon_Endpoint_Active+"/ws")
+			logger.V(1).Error(err, "Connection to RPC server Failed", "endpoint", endpoint)
 		}
 		Connected = false
 		return
@@ -81,4 +78,28 @@ func Connect(endpoint string) (err error) {
 	RPC_Client.RPC = jrpc2.NewClient(channel.RawJSON(input_output, input_output), &jrpc2.ClientOptions{OnNotify: Notify_broadcaster})
 
 	return test_connectivity()
+}
+
+func TestConnect(endpoint string) (info rpc.GetInfo_Result, err error) {
+	if endpoint == "" {
+		endpoint = Daemon_Endpoint
+	}
+
+	client := Client{}
+	ws, _, err := websocket.DefaultDialer.Dial(endpoint, nil)
+	if err != nil {
+		return
+	}
+
+	client.WS = ws
+	input_output := rwc.New(client.WS)
+	client.RPC = jrpc2.NewClient(channel.RawJSON(input_output, input_output), &jrpc2.ClientOptions{})
+
+	info, err = client.test_connectivity()
+	if err != nil {
+		return
+	}
+
+	client.WS.Close()
+	return info, nil
 }

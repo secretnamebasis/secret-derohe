@@ -140,22 +140,20 @@ func get_daemon_address() string {
 }
 
 // tests connectivity when connectivity to daemon
-func test_connectivity() (err error) {
+func (client *Client) test_connectivity() (info rpc.GetInfo_Result, err error) {
 	var result string
 
 	// Issue a call with a response.
-	if err = RPC_Client.Call("DERO.Echo", []string{"hello", "world"}, &result); err != nil {
+	if err = client.Call("DERO.Echo", []string{"hello", "world"}, &result); err != nil {
 		logger.V(1).Error(err, "DERO.Echo Call failed:")
-		Connected = false
 		return
 	}
 	//fmt.Println(result)
 
-	var info rpc.GetInfo_Result
+	//var info rpc.GetInfo_Result
 	// Issue a call with a response.
-	if err = RPC_Client.Call("DERO.GetInfo", nil, &info); err != nil {
+	if err = client.Call("DERO.GetInfo", nil, &info); err != nil {
 		logger.V(1).Error(err, "DERO.GetInfo Call failed:")
-		Connected = false
 		return
 	}
 
@@ -168,12 +166,26 @@ func test_connectivity() (err error) {
 		return
 	}
 
+	//daemon_height = info.Height
+	//daemon_topoheight = info.TopoHeight
+	//	logger.Info("connection is maintained")
+	return info, nil
+}
+
+func test_connectivity() (err error) {
+	info, err := RPC_Client.test_connectivity()
+	if err != nil {
+		Connected = false
+		return err
+	}
+
+	daemon_height = info.Height
+	daemon_topoheight = info.TopoHeight
+
 	if strings.ToLower(info.Network) == "simulator" {
 		simulator = true
 	}
-	daemon_height = info.Height
-	daemon_topoheight = info.TopoHeight
-	//	logger.Info("connection is maintained")
+
 	return nil
 }
 
