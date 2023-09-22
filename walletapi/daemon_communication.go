@@ -192,10 +192,11 @@ func test_connectivity() (err error) {
 // triggers syncing with wallet every 5 seconds
 func (w *Wallet_Memory) sync_loop() {
 	//logger = globals.Logger
+Loop:
 	for {
 		select {
 		case <-w.Quit:
-			break
+			break Loop
 		default:
 		}
 
