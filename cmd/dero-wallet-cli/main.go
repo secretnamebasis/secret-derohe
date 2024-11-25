@@ -128,7 +128,7 @@ Usage:
 func main() {
 	var err error
 
-	globals.Arguments, err = docopt.ParseArgs(command_line, nil, "DERO atlantis wallet : work in progress")
+	globals.Arguments, err = docopt.ParseArgs(command_line, nil, config.Version.String())
 	if err != nil {
 		fmt.Printf("Error while parsing options err: %s\n", err)
 		return
