@@ -63,15 +63,16 @@ import (
 	// "github.com/vmihailenco/msgpack"
 )
 
-var command_line string = `dero-wallet-cli 
-DERO : A secure, private blockchain with smart-contracts
+var (
+	command_line string = `dero-wallet-cli 
+	DERO : A secure, private blockchain with smart-contracts
 
 Usage:
   dero-wallet-cli [options] 
   dero-wallet-cli -h | --help
   dero-wallet-cli --version
 
-Options:
+  Options:
   -h --help                         Show this screen.
   --version                          Show version.
   --wallet-file=<file>               Use this file to restore or create new wallet.
@@ -95,33 +96,34 @@ Options:
   --scan-top-n-blocks=<100000>       Only scan top N blocks.
   --save-every-x-seconds=<300>       Save wallet every x seconds.
   `
-var menu_mode bool = true // default display menu mode
-// var account_valid bool = false                        // if an account has been opened, do not allow to create new account in this session
-var offline_mode bool             // whether we are in offline mode
-var sync_in_progress int          //  whether sync is in progress with daemon
-var wallet *walletapi.Wallet_Disk //= &walletapi.Account{} // all account  data is available here
-// var address string
-var sync_time time.Time // used to suitable update  prompt
+	menu_mode bool = true // default display menu mode
+	//  account_valid bool = false                        // if an account has been opened, do not allow to create new account in this session
+	offline_mode     bool                   // whether we are in offline mode
+	sync_in_progress int                    //  whether sync is in progress with daemon
+	wallet           *walletapi.Wallet_Disk //= &walletapi.Account{} // all account  data is available here
+	//  address string
+	sync_time time.Time // used to suitable update  prompt
 
-var default_offline_datafile string = "getoutputs.bin"
+	default_offline_datafile string = "getoutputs.bin"
 
-var logger logr.Logger = logr.Discard() // default discard all logs
+	logger logr.Logger = logr.Discard() // default discard all logs
 
-var color_black = "\033[30m"
-var color_red = "\033[31m"
-var color_green = "\033[32m"
-var color_yellow = "\033[33m"
-var color_blue = "\033[34m"
-var color_magenta = "\033[35m"
-var color_cyan = "\033[36m"
-var color_white = "\033[37m"
-var color_extra_white = "\033[1m"
-var color_normal = "\033[0m"
+	color_black       = "\033[30m"
+	color_red         = "\033[31m"
+	color_green       = "\033[32m"
+	color_yellow      = "\033[33m"
+	color_blue        = "\033[34m"
+	color_magenta     = "\033[35m"
+	color_cyan        = "\033[36m"
+	color_white       = "\033[37m"
+	color_extra_white = "\033[1m"
+	color_normal      = "\033[0m"
 
-var prompt_mutex sync.Mutex // prompt lock
-var prompt string = "\033[92mDERO Wallet:\033[32m>>>\033[0m "
+	prompt_mutex sync.Mutex // prompt lock
+	prompt       string     = "\033[92mDERO Wallet:\033[32m>>>\033[0m "
 
-var tablock uint32
+	tablock uint32
+)
 
 func main() {
 	var err error
