@@ -151,15 +151,6 @@ func main() {
 	}
 	defer l.Close()
 
-	// get ready to grab passwords
-	setPasswordCfg := l.GenPasswordConfig()
-	setPasswordCfg.SetListener(func(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
-		l.SetPrompt(fmt.Sprintf("Enter password(%v): ", len(line)))
-		l.Refresh()
-		return nil, 0, false
-	})
-	l.Refresh() // refresh the prompt
-
 	// parse arguments and setup logging , print basic information
 	exename, _ := os.Executable()
 	f, err := os.Create(exename + ".log")
