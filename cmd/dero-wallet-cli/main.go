@@ -134,15 +134,6 @@ func main() {
 		return
 	}
 
-	// init the lookup table one, anyone importing walletapi should init this first, this will take around 1 sec on any recent system
-	if os.Getenv("USE_BIG_TABLE") != "" {
-		fmt.Printf("Please wait, generating precompute table....")
-		walletapi.Initialize_LookupTable(1, 1<<24) // use 8 times more more ram, around 256 MB RAM
-		fmt.Printf("done\n")
-	} else {
-		walletapi.Initialize_LookupTable(1, 1<<21)
-	}
-
 	// We need to initialize readline first, so it changes stderr to ansi processor on windows
 	l, err := readline.NewEx(&readline.Config{
 		//Prompt:          "\033[92mDERO:\033[32m»\033[0m",
@@ -178,6 +169,15 @@ func main() {
 	}
 	globals.InitializeLog(l.Stdout(), f)
 	logger = globals.Logger.WithName("wallet")
+
+	// init the lookup table one, anyone importing walletapi should init this first, this will take around 1 sec on any recent system
+	if os.Getenv("USE_BIG_TABLE") != "" {
+		logger.Info("", "USE_BIG_TABLE", os.Getenv("USE_BIG_TABLE"))
+		walletapi.Initialize_LookupTable(1, 1<<24) // use 8 times more more ram, around 256 MB RAM
+		logger.Info("Precompute table: done")
+	} else {
+		walletapi.Initialize_LookupTable(1, 1<<21)
+	}
 
 	logger.Info("DERO Wallet  :  It is an alpha version, use it for testing/evaluations purpose only.")
 	logger.Info("Copyright 2017-2021 DERO Project. All rights reserved.")
