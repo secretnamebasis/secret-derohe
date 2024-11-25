@@ -71,29 +71,29 @@ Usage:
   dero-wallet-cli -h | --help
   dero-wallet-cli --version
 
-  Options:
-  -h --help     Show this screen.
-  --version     Show version.
-  --wallet-file=<file>  Use this file to restore or create new wallet
-  --password=<password>  Use this password to unlock the wallet
-  --offline     Run the wallet in completely offline mode 
-  --offline_datafile=<file>  Use the data in offline mode default ("getoutputs.bin") in current dir
-  --prompt      Disable menu and display prompt
-  --testnet  	Run in testnet mode.
-  --debug       Debug mode enabled, print log messages
-  --unlocked    Keep wallet unlocked for cli commands (Does not confirm password before commands)
-  --generate-new-wallet Generate new wallet
-  --restore-deterministic-wallet    Restore wallet from previously saved recovery seed
-  --electrum-seed=<recovery-seed>   Seed to use while restoring wallet
-  --socks-proxy=<socks_ip:port>  Use a proxy to connect to Daemon.
-  --remote      use hard coded remote daemon https://rwallet.dero.live
-  --daemon-address=<host:port>    Use daemon instance at <host>:<port> or https://domain
-  --rpc-server      Run rpc server, so wallet is accessible using api
-  --rpc-bind=<127.0.0.1:20209>  Wallet binds on this ip address and port
-  --rpc-login=<username:password>  RPC server will grant access based on these credentials
-  --allow-rpc-password-change   RPC server will change password if you send "Pass" header with new password
-  --scan-top-n-blocks=<100000>  Only scan top N blocks
-  --save-every-x-seconds=<300>  Save wallet every x seconds
+Options:
+  -h --help                         Show this screen.
+  --version                          Show version.
+  --wallet-file=<file>               Use this file to restore or create new wallet.
+  --password=<password>              Use this password to unlock the wallet.
+  --offline                          Run the wallet in completely offline mode.
+  --offline_datafile=<file>          Use the data in offline mode (default: "getoutputs.bin" in the current dir).
+  --prompt                           Disable menu and display prompt.
+  --testnet                          Run in testnet mode.
+  --debug                            Debug mode enabled, print log messages.
+  --unlocked                         Keep wallet unlocked for CLI commands (does not confirm password before commands).
+  --generate-new-wallet              Generate new wallet.
+  --restore-deterministic-wallet     Restore wallet from previously saved recovery seed.
+  --electrum-seed=<recovery-seed>    Seed to use while restoring wallet.
+  --socks-proxy=<socks_ip:port>      Use a proxy to connect to Daemon.
+  --remote                           Use hardcoded remote daemon (https://rwallet.dero.live).
+  --daemon-address=<host:port>       Use daemon instance at <host>:<port> or https://domain.
+  --rpc-server                       Run RPC server, so wallet is accessible using API.
+  --rpc-bind=<127.0.0.1:20209>       Wallet binds on this IP address and port.
+  --rpc-login=<username:password>    RPC server will grant access based on these credentials.
+  --allow-rpc-password-change        RPC server will change password if you send "Pass" header with new password.
+  --scan-top-n-blocks=<100000>       Only scan top N blocks.
+  --save-every-x-seconds=<300>       Save wallet every x seconds.
   `
 var menu_mode bool = true // default display menu mode
 // var account_valid bool = false                        // if an account has been opened, do not allow to create new account in this session
