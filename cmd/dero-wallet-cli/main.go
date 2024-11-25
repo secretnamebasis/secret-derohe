@@ -136,7 +136,6 @@ func main() {
 
 	// We need to initialize readline first, so it changes stderr to ansi processor on windows
 	l, err := readline.NewEx(&readline.Config{
-		//Prompt:          "\033[92mDERO:\033[32m»\033[0m",
 		Prompt:          prompt,
 		HistoryFile:     "", // wallet never saves any history file anywhere, to prevent any leakage
 		AutoComplete:    completer,
