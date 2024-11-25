@@ -367,7 +367,6 @@ func update_prompt(l *readline.Instance) {
 
 	last_wallet_height := uint64(0)
 	last_daemon_height := int64(0)
-	daemon_online := false
 	last_update_time := int64(0)
 	for {
 		time.Sleep(30 * time.Millisecond) // give user a smooth running number
@@ -403,36 +402,23 @@ func update_prompt(l *readline.Instance) {
 		}
 
 		// only update prompt if needed, or update atleast once every second
+		if last_wallet_height != wallet.Get_Height() || last_daemon_height != walletapi.Get_Daemon_Height() || // heights have changed
+			(time.Now().Unix()-last_update_time) >= 1 { // older than a second
 
-		_ = daemon_online
-
-		//fmt.Printf("chekcing if update is required\n")
-		if last_wallet_height != wallet.Get_Height() || last_daemon_height != walletapi.Get_Daemon_Height() ||
-			/*daemon_online != wallet.IsDaemonOnlineCached() ||*/ (time.Now().Unix()-last_update_time) >= 1 {
 			// choose color based on urgency
 			color := "\033[32m" // default is green color
 			if wallet.Get_Height() < wallet.Get_Daemon_Height() {
 				color = "\033[33m" // make prompt yellow
 			}
 
-			//dheight := walletapi.Get_Daemon_Height()
-
-			/*if wallet.IsDaemonOnlineCached() == false {
-				color = "\033[33m" // make prompt yellow
-				dheight = 0
-			}*/
-
 			balance_string := ""
 
-			//balance_unlocked, locked_balance := wallet.Get_Balance_Rescan()// wallet.Get_Balance()
 			balance_unlocked, _ := wallet.Get_Balance()
 			balance_string = fmt.Sprintf(color_green+"%s "+color_white, globals.FormatMoney(balance_unlocked))
 
 			if wallet.Error != nil {
 				balance_string += fmt.Sprintf(color_red+" %s ", wallet.Error)
-			} /*else if wallet.PoolCount() > 0 {
-				balance_string += fmt.Sprintf(color_yellow+"(%d tx pending for -%s)", wallet.PoolCount(), globals.FormatMoney(wallet.PoolBalance()))
-			}*/
+			}
 
 			testnet_string := ""
 			if !globals.IsMainnet() {
@@ -444,9 +430,6 @@ func update_prompt(l *readline.Instance) {
 			last_wallet_height = wallet.Get_Height()
 			last_daemon_height = walletapi.Get_Daemon_Height()
 			last_update_time = time.Now().Unix()
-			//daemon_online = wallet.IsDaemonOnlineCached()
-			_ = last_update_time
-
 		}
 
 		prompt_mutex.Unlock()
