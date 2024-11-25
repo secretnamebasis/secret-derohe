@@ -234,8 +234,7 @@ func main() {
 			password = ReadConfirmedPassword(l, "Enter password", "Confirm password")
 		}
 
-		seed_language := choose_seed_language(l)
-		_ = seed_language
+		_ = choose_seed_language(l)
 		wallet, err = walletapi.Create_Encrypted_Wallet_Random(filename, password)
 		if err != nil {
 			logger.Error(err, "Error occured while creating new wallet.")
