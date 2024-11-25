@@ -35,4 +35,5 @@ var ErrTXDead = fmt.Errorf("DEAD TX included in block")
 var ErrInvalidSize = fmt.Errorf("Invalid Size")
 var ErrInvalidTX = fmt.Errorf("Invalid TX")
 
+// wallet errors
 var ErrAccountUnregistered = fmt.Errorf("Account Unregistered")
