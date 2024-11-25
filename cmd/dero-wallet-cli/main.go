@@ -395,7 +395,8 @@ func update_prompt(l *readline.Instance) {
 		}
 
 		if wallet == nil {
-			l.SetPrompt(fmt.Sprintf("\033[1m\033[32m%s \033[0m"+color_green+"0/%d \033[32m>>>\033[0m ", address_trim, walletapi.Get_Daemon_Height()))
+			prompt = color_extra_white + color_green + "%s " + color_normal + color_green + "0/%d %s %s" + color_green + ">>> " + color_normal
+			l.SetPrompt(fmt.Sprintf(prompt, address_trim, walletapi.Get_Daemon_Height()))
 			l.Refresh()
 			prompt_mutex.Unlock()
 			continue
@@ -437,8 +438,8 @@ func update_prompt(l *readline.Instance) {
 			if !globals.IsMainnet() {
 				testnet_string = "\033[31m TESTNET"
 			}
-
-			l.SetPrompt(fmt.Sprintf("\033[1m\033[32m%s \033[0m"+color+"%d/%d %s %s\033[32m>>>\033[0m ", address_trim, wallet.Get_Height(), walletapi.Get_Daemon_Height(), balance_string, testnet_string))
+			prompt = color_extra_white + color_green + "%s " + color_normal + color + "%d/%d %s %s" + color_green + ">>> " + color_normal
+			l.SetPrompt(fmt.Sprintf(prompt, address_trim, wallet.Get_Height(), walletapi.Get_Daemon_Height(), balance_string, testnet_string))
 			l.Refresh()
 			last_wallet_height = wallet.Get_Height()
 			last_daemon_height = walletapi.Get_Daemon_Height()
