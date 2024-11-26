@@ -158,7 +158,7 @@ func InitializeLog(console, logfile io.Writer) {
 		if log_level < 0 {
 			log_level = 0
 		}
-		if log_level > 127 {
+		if log_level > 126 {
 			log_level = 127
 		}
 		Log_Level_File = zap.NewAtomicLevelAt(zapcore.Level(0 - log_level))
