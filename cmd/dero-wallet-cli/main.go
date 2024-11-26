@@ -460,28 +460,6 @@ func Create_New_Wallet(l *readline.Instance) (w *walletapi.Wallet_Disk, err erro
 
 /*
 
-// create a new wallet from hex seed provided
-func Create_New_Account_from_seed(l *readline.Instance) *walletapi.Account {
-
-	var account *walletapi.Account
-	var seedkey crypto.Key
-
-	seed := read_line_with_prompt(l, "Please enter your seed ( hex 64 chars): ")
-	seed = strings.TrimSpace(seed)          // trim any extra space
-	seed_raw, err := hex.DecodeString(seed) // hex decode
-	if len(seed) != 64 || err != nil {      //sanity check
-		globals.Logger.Warnf("Seed must be 64 chars hexadecimal chars")
-		return account
-	}
-
-	copy(seedkey[:], seed_raw[:32])                            // copy bytes to seed
-	account, _ = walletapi.Generate_Account_From_Seed(seedkey) // create a new account
-	account.SeedLanguage = choose_seed_language(l)             // ask user his seed preference and set it
-
-	account_valid = true
-
-	return account
-}
 
 // create a new wallet from viewable seed provided
 // viewable seed consists of public spend key and private view key
