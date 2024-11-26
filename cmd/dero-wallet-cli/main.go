@@ -458,10 +458,6 @@ func Create_New_Wallet(l *readline.Instance) (w *walletapi.Wallet_Disk, err erro
 	return
 }
 
-/*
-
-
- */
 // helper function to let user to choose a seed in specific lanaguage
 func choose_seed_language(l *readline.Instance) string {
 	languages := mnemonics.Language_List()
