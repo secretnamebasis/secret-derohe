@@ -461,34 +461,7 @@ func Create_New_Wallet(l *readline.Instance) (w *walletapi.Wallet_Disk, err erro
 /*
 
 
-// create a new wallet from viewable seed provided
-// viewable seed consists of public spend key and private view key
-func Create_New_Account_from_viewable_key(l *readline.Instance) *walletapi.Account {
-
-	var seedkey crypto.Key
-	var privateview crypto.Key
-
-	var account *walletapi.Account
-	seed := read_line_with_prompt(l, "Please enter your View Only Key ( hex 128 chars): ")
-
-	seed = strings.TrimSpace(seed) // trim any extra space
-
-	seed_raw, err := hex.DecodeString(seed)
-	if len(seed) != 128 || err != nil {
-		globals.Logger.Warnf("View Only key must be 128 chars hexadecimal chars")
-		return account
-	}
-
-	copy(seedkey[:], seed_raw[:32])
-	copy(privateview[:], seed_raw[32:64])
-
-	account, _ = walletapi.Generate_Account_View_Only(seedkey, privateview)
-
-	account_valid = true
-
-	return account
-}
-*/
+ */
 // helper function to let user to choose a seed in specific lanaguage
 func choose_seed_language(l *readline.Instance) string {
 	languages := mnemonics.Language_List()
