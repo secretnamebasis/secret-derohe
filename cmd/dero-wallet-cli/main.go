@@ -447,15 +447,13 @@ func Create_New_Wallet(l *readline.Instance) (w *walletapi.Wallet_Disk, err erro
 	walletpassword := ""
 
 	account, _ := walletapi.Generate_Keys_From_Random()
-	account.SeedLanguage = choose_seed_language(l)
+	account.SeedLanguage = choose_seed_language(l) // set wallet seed language
 
 	w, err = walletapi.Create_Encrypted_Wallet(walletpath, walletpassword, account.Keys.Secret)
 
 	if err != nil {
 		return
 	}
-
-	// set wallet seed language
 
 	// a new account has been created, append the seed to user home directory
 
