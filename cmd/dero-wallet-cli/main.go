@@ -394,7 +394,7 @@ func update_prompt(l *readline.Instance) {
 		}
 
 		if wallet == nil {
-			prompt = color_extra_white + color_green + "%s " + color_normal + color_green + "0/%d %s %s" + color_green + ">>> " + color_normal
+			prompt = color_extra_white + color_green + "%s " + color_normal + color_green + "0/%d " + color_green + ">>> " + color_normal
 			l.SetPrompt(fmt.Sprintf(prompt, address_trim, walletapi.Get_Daemon_Height()))
 			l.Refresh()
 			prompt_mutex.Unlock()
