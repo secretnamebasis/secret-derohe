@@ -219,7 +219,7 @@ func Initialize() {
 // used to recover in case of panics
 func Recover(level int) (err error) {
 	if r := recover(); r != nil {
-		err = fmt.Errorf("Recovered r:%+v stack %s", r, string(debug.Stack()))
+		err = fmt.Errorf("recovered r:%+v stack %s", r, string(debug.Stack()))
 		Logger.V(level).Error(nil, "Recovered ", "error", r, "stack", string(debug.Stack()))
 	}
 	return
@@ -310,15 +310,15 @@ func ParseValidateAddress(str string) (addr *rpc.Address, err error) {
 
 	// check whether the domain is valid
 	if !addr.IsDERONetwork() {
-		err = fmt.Errorf("Invalid DERO address")
+		err = fmt.Errorf("invalid DERO address")
 		return
 	}
 
 	if IsMainnet() != addr.IsMainnet() {
 		if IsMainnet() {
-			err = fmt.Errorf("Address belongs to DERO testnet and is invalid on current network")
+			err = fmt.Errorf("address belongs to DERO testnet and is invalid on current network")
 		} else {
-			err = fmt.Errorf("Address belongs to DERO mainnet and is invalid on current network")
+			err = fmt.Errorf("address belongs to DERO mainnet and is invalid on current network")
 		}
 		return
 	}
@@ -331,15 +331,15 @@ func ParseAmount(str string) (amount uint64, err error) {
 	float_amount, base, err := big.ParseFloat(strings.TrimSpace(str), 10, 0, big.ToZero)
 
 	if err != nil {
-		err = fmt.Errorf("Amount could not be parsed err: %s", err)
+		err = fmt.Errorf("amount could not be parsed err: %s", err)
 		return
 	}
 	if base != 10 {
-		err = fmt.Errorf("Amount should be in base 10 (0123456789)")
+		err = fmt.Errorf("amount should be in base 10 (0123456789)")
 		return
 	}
 	if float_amount.Cmp(new(big.Float).Abs(float_amount)) != 0 { // number and abs(num) not equal means number is neg
-		err = fmt.Errorf("Amount cannot be negative")
+		err = fmt.Errorf("amount cannot be negative")
 		return
 	}
 
@@ -356,7 +356,7 @@ func ParseAmount(str string) (amount uint64, err error) {
 	//amount, _ = float_amount.Uint64() // sanity checks again
 	amount, err = strconv.ParseUint(float_amount.Text('f', 0), 10, 64)
 	if err != nil {
-		err = fmt.Errorf("Amount  is invalid %s ", float_amount.Text('f', 0))
+		err = fmt.Errorf("amount is invalid %s ", float_amount.Text('f', 0))
 		return
 	}
 	//if amount == 0 {
@@ -365,7 +365,7 @@ func ParseAmount(str string) (amount uint64, err error) {
 	//}
 
 	if amount == math.MaxUint64 {
-		err = fmt.Errorf("Amount  is invalid")
+		err = fmt.Errorf("amount is invalid")
 		return
 	}
 
