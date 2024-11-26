@@ -219,8 +219,8 @@ func Initialize() {
 // used to recover in case of panics
 func Recover(level int) (err error) {
 	if r := recover(); r != nil {
-		err = fmt.Errorf("Recovered r:%+v stack %s", r, fmt.Sprintf("%s", string(debug.Stack())))
-		Logger.V(level).Error(nil, "Recovered ", "error", r, "stack", fmt.Sprintf("%s", string(debug.Stack())))
+		err = fmt.Errorf("Recovered r:%+v stack %s", r, string(debug.Stack()))
+		Logger.V(level).Error(nil, "Recovered ", "error", r, "stack", string(debug.Stack()))
 	}
 	return
 }
