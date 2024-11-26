@@ -455,16 +455,6 @@ func Create_New_Wallet(l *readline.Instance) (w *walletapi.Wallet_Disk, err erro
 		return
 	}
 
-	// a new account has been created, append the seed to user home directory
-
-	//usr, err := user.Current()
-	/*if err != nil {
-	      globals.Logger.Warnf("Cannot get current username to save recovery key and password")
-	  }else{ // we have a user, get his home dir
-
-
-	  }*/
-
 	return
 }
 
