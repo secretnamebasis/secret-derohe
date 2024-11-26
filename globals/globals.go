@@ -167,7 +167,7 @@ func InitializeLog(console, logfile io.Writer) {
 	zf := zap.NewDevelopmentEncoderConfig()
 	zc := zap.NewDevelopmentEncoderConfig()
 	zc.EncodeLevel = zapcore.CapitalColorLevelEncoder
-	zc.EncodeTime = zapcore.TimeEncoderOfLayout("02/01 15:04:05")
+	zc.EncodeTime = zapcore.TimeEncoderOfLayout(time.DateTime) // https://pkg.go.dev/time
 
 	file_encoder := zapcore.NewJSONEncoder(zf)
 	console_encoder := zapcore.NewConsoleEncoder(zc)
