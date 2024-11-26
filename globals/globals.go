@@ -84,7 +84,7 @@ func TimeSkipP2P() time.Time {
 }
 
 func GetOffset() time.Duration {
-	return time.Now().Sub(Time())
+	return time.Since(Time())
 }
 func GetOffsetNTP() time.Duration {
 	return ClockOffsetNTP
