@@ -42,22 +42,23 @@ import (
 // all the the global variables used by the program are stored here
 // since the entire logic is designed around a state machine driven by external events
 // once the core starts nothing changes until there is a network state change
+var (
+	Subsystem_Active uint32 // atomic counter to show how many subsystems are active
+	Exit_In_Progress bool
+	StartTime        = time.Now()
 
-var Subsystem_Active uint32 // atomic counter to show how many subsystems are active
-var Exit_In_Progress bool
-var StartTime = time.Now()
+	// on init this variable is updated to setup global config in 1 go
+	Config config.CHAIN_CONFIG = config.Mainnet // default is mainnnet
 
-// on init this variable is updated to setup global config in 1 go
-var Config config.CHAIN_CONFIG = config.Mainnet // default is mainnnet
+	// global logger all components will use it with context
+	Logger logr.Logger = logr.Discard() // default discard all logs
 
-// global logger all components will use it with context
-var Logger logr.Logger = logr.Discard() // default discard all logs
-
-var ClockOffset time.Duration    // actual clock offset that is used by the daemon
-var ClockOffsetNTP time.Duration // clockoffset in reference to ntp servers
-var ClockOffsetP2P time.Duration // clockoffset in reference to p2p averging
-var TimeIsInSync bool            // whether time is in sync, if yes we do not use any clock offset but still we keep calculating them
-var TimeIsInSyncNTP bool
+	ClockOffset     time.Duration // actual clock offset that is used by the daemon
+	ClockOffsetNTP  time.Duration // clockoffset in reference to ntp servers
+	ClockOffsetP2P  time.Duration // clockoffset in reference to p2p averging
+	TimeIsInSync    bool          // whether time is in sync, if yes we do not use any clock offset but still we keep calculating them
+	TimeIsInSyncNTP bool
+)
 
 // get current time with clock offset applied
 func Time() time.Time {
