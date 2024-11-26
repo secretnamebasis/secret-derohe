@@ -104,8 +104,8 @@ var Dialer proxy.Dialer = proxy.Direct // for proxy and direct connections
 var Arguments = map[string]interface{}{}
 
 func InitNetwork() {
-	Config = config.Mainnet                    // default is mainnnet
-	if Arguments["--testnet"].(bool) == true { // setup testnet if requested
+	Config = config.Mainnet            // default is mainnnet
+	if Arguments["--testnet"].(bool) { // setup testnet if requested
 		Config = config.Testnet
 	}
 
@@ -136,7 +136,7 @@ func (c *removeCallerCore) With(fields []zap.Field) zapcore.Core {
 
 func InitializeLog(console, logfile io.Writer) {
 
-	if Arguments["--debug"] != nil && Arguments["--debug"].(bool) == true { // setup debug mode if requested
+	if Arguments["--debug"] != nil && Arguments["--debug"].(bool) { // setup debug mode if requested
 		Log_Level_Console = zap.NewAtomicLevelAt(zapcore.Level(-1))
 	}
 
@@ -234,7 +234,7 @@ func IsMainnet() bool {
 
 // tells whether we are in simulator mode ( both mainnet and testnet coud be simulated)
 func IsSimulator() bool {
-	if Arguments["--simulator"] != nil && Arguments["--simulator"].(bool) == true {
+	if Arguments["--simulator"] != nil && Arguments["--simulator"].(bool) {
 		return true
 	}
 	return false
