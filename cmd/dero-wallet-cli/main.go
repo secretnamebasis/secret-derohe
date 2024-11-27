@@ -438,26 +438,6 @@ func update_prompt(l *readline.Instance) {
 
 }
 
-// create a new wallet from scratch from random numbers
-func Create_New_Wallet(l *readline.Instance) (w *walletapi.Wallet_Disk, err error) {
-
-	// ask user a file name to store the data
-
-	walletpath := read_line_with_prompt(l, "Please enter wallet file name : ")
-	walletpassword := ""
-
-	account, _ := walletapi.Generate_Keys_From_Random()
-	account.SeedLanguage = choose_seed_language(l) // set wallet seed language
-
-	w, err = walletapi.Create_Encrypted_Wallet(walletpath, walletpassword, account.Keys.Secret)
-
-	if err != nil {
-		return
-	}
-
-	return
-}
-
 // helper function to let user to choose a seed in specific lanaguage
 func choose_seed_language(l *readline.Instance) string {
 	languages := mnemonics.Language_List()
