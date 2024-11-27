@@ -108,16 +108,12 @@ Usage:
 
 	logger logr.Logger = logr.Discard() // default discard all logs
 
-	color_black       = "\033[30m"
+	color_normal      = "\033[0m"
+	color_extra_white = "\033[1m"
 	color_red         = "\033[31m"
 	color_green       = "\033[32m"
 	color_yellow      = "\033[33m"
-	color_blue        = "\033[34m"
-	color_magenta     = "\033[35m"
-	color_cyan        = "\033[36m"
 	color_white       = "\033[37m"
-	color_extra_white = "\033[1m"
-	color_normal      = "\033[0m"
 
 	prompt_mutex sync.Mutex // prompt lock
 	prompt       string     = "\033[92mDERO Wallet:\033[32m>>>\033[0m "
