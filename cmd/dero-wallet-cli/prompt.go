@@ -16,27 +16,28 @@
 
 package main
 
-import "os"
-import "io"
-import "fmt"
-import "bytes"
-import "time"
+import (
+	"bytes"
+	"encoding/hex"
+	"fmt"
+	"io"
+	"os"
+	"strconv"
+	"strings"
+	"time"
+	"unicode"
 
-//import "io/ioutil"
-//import "path/filepath"
-import "strings"
-import "unicode"
-import "strconv"
-import "encoding/hex"
+	// "path/filepath"
+	// "io/ioutil"
 
-import "github.com/chzyer/readline"
+	"github.com/deroproject/derohe/config"
+	"github.com/deroproject/derohe/cryptography/crypto"
+	"github.com/deroproject/derohe/globals"
+	"github.com/deroproject/derohe/rpc"
+	"github.com/deroproject/derohe/walletapi"
 
-import "github.com/deroproject/derohe/rpc"
-import "github.com/deroproject/derohe/config"
-import "github.com/deroproject/derohe/globals"
-import "github.com/deroproject/derohe/walletapi"
-
-import "github.com/deroproject/derohe/cryptography/crypto"
+	"github.com/chzyer/readline"
+)
 
 var account walletapi.Account
 
