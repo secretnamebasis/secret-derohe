@@ -282,7 +282,10 @@ func handle_prompt_command(l *readline.Instance, line string) {
 			break
 		}
 		wallet.Close_Encrypted_Wallet() // overwrite previous instance
-
+		prompt_mutex.Lock()
+		wallet = nil // overwrite previous instance
+		prompt_mutex.Unlock()
+		fmt.Fprintf(l.Stderr(), color_yellow+"Wallet closed"+color_white)
 	case "menu": // enable menu mode
 		menu_mode = true
 		logger.Info("Menu mode enabled")
