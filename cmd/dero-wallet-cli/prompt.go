@@ -69,11 +69,7 @@ func handle_prompt_command(l *readline.Instance, line string) {
 
 	// handled closed wallet commands
 	switch command {
-	case "address", "rescan_bc", "seed", "set", "password", "get_tx_key", "i8", "payment_id":
-		fallthrough
-	case "spendkey", "transfer", "close":
-		fallthrough
-	case "transfer_all", "sweep_all", "show_transfers", "balance", "status":
+	case "address", "rescan_bc", "seed", "set", "password", "get_tx_key", "i8", "payment_id", "spendkey", "transfer", "close", "transfer_all", "sweep_all", "show_transfers", "balance", "status":
 		if wallet == nil {
 			logger.Error(err, "No wallet available")
 			return
