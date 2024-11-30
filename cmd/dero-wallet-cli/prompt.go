@@ -112,7 +112,6 @@ func handle_prompt_command(l *readline.Instance, line string) {
 
 		case 2: // scid balance at topoheight
 			logger.Error(err, "not implemented")
-			break
 		}
 
 	case "rescan_bc", "rescan_spent": // rescan from 0
