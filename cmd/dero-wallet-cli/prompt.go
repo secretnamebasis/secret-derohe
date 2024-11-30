@@ -881,7 +881,7 @@ func PressAnyKey(l *readline.Instance, wallet *walletapi.Wallet_Disk) {
 	setPasswordCfg := l.GenPasswordConfig()
 	setPasswordCfg.SetListener(func(line []rune, pos int, key rune) (newLine []rune, newPos int, ok bool) {
 
-		l.SetPrompt(fmt.Sprintf("Press ENTER key to continue..."))
+		l.SetPrompt("Press ENTER key to continue...")
 		l.Refresh()
 
 		return nil, 0, false
