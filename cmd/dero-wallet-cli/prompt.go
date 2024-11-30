@@ -889,8 +889,6 @@ func PressAnyKey(l *readline.Instance, wallet *walletapi.Wallet_Disk) {
 
 	// any error or any key is the same
 	l.ReadPasswordWithConfig(setPasswordCfg)
-
-	return
 }
 
 // this completer is used to complete the commands at the prompt
