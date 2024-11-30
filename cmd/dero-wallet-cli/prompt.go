@@ -463,7 +463,7 @@ func handle_set_command(l *readline.Instance, line string) {
 		help = true
 	}
 
-	if help == true || len(line_parts) == 1 { // user type plain set command, give out all settings and help
+	if help || len(line_parts) == 1 { // user type plain set command, give out all settings and help
 
 		fmt.Fprintf(l.Stderr(), color_extra_white+"Current settings"+color_extra_white+"\n")
 		fmt.Fprintf(l.Stderr(), color_normal+"Seed Language: "+color_extra_white+"%s\t"+color_normal+"eg. "+color_extra_white+"set seed language\n"+color_normal, wallet.GetSeedLanguage())
