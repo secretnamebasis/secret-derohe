@@ -866,7 +866,7 @@ func ReadConfirmedPassword(l *readline.Instance, first_prompt string, second_pro
 			return
 		}
 
-		logger.Error(fmt.Errorf("Passwords mismatch.Retrying."), "")
+		logger.Error(fmt.Errorf("passwords mismatch.... retrying"), "")
 	}
 
 }
