@@ -258,7 +258,6 @@ func handle_prompt_command(l *readline.Instance, line string) {
 		case 1:
 			var zeroscid crypto.Hash
 			show_transfers(l, wallet, zeroscid, 100)
-			break
 
 		case 2: // scid balance
 			scid := crypto.HashHexToHash(line_parts[1])
@@ -266,7 +265,6 @@ func handle_prompt_command(l *readline.Instance, line string) {
 
 		default:
 			logger.Error(err, "unknown parameters or not implemented")
-			break
 		}
 
 	case "set": // set/display different settings
