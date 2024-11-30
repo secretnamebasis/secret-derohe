@@ -982,7 +982,7 @@ func rescan_bc(wallet *walletapi.Wallet_Disk) {
 
 func valid_registration_or_display_error(l *readline.Instance, wallet *walletapi.Wallet_Disk) bool {
 	if !wallet.IsRegistered() {
-		logger.Error(fmt.Errorf("Your account is not registered.Please register."), "")
+		logger.Error(fmt.Errorf("your account is not registered... please register"), "")
 	}
 	return true
 }
