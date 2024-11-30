@@ -176,7 +176,7 @@ func handle_prompt_command(l *readline.Instance, line string) {
 				logger.Info("", "message", string(message))
 			}
 
-			if os.WriteFile(outputfile, message, 0600); err != nil {
+			if err := os.WriteFile(outputfile, message, 0600); err != nil {
 				logger.Error(err, "Cannot write output file", "file", outputfile)
 			}
 			logger.Info("successfully wrote message to file. please check", "file", outputfile)
