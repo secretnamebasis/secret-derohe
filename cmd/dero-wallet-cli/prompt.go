@@ -786,7 +786,7 @@ func ValidateCurrentPassword(l *readline.Instance, wallet *walletapi.Wallet_Disk
 	defer prompt_mutex.Unlock()
 
 	// if user requested wallet to be open/unlocked, keep it open
-	if globals.Arguments["--unlocked"].(bool) == true {
+	if globals.Arguments["--unlocked"].(bool) {
 		return true
 	}
 
