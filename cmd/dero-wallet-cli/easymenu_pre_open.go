@@ -218,7 +218,7 @@ func handle_easymenu_pre_open_command(l *readline.Instance, line string) {
 
 // sets online mode, starts RPC server etc
 func common_processing(wallet *walletapi.Wallet_Disk) {
-	if globals.Arguments["--offline"].(bool) == true {
+	if globals.Arguments["--offline"].(bool) {
 		//offline_mode = true
 	} else {
 		wallet.SetOnlineMode()
@@ -251,7 +251,7 @@ func common_processing(wallet *walletapi.Wallet_Disk) {
 	wallet.SetNetwork(!globals.Arguments["--testnet"].(bool))
 
 	// start rpc server if requested
-	if globals.Arguments["--rpc-server"].(bool) == true {
+	if globals.Arguments["--rpc-server"].(bool) {
 		rpc_address := "127.0.0.1:" + fmt.Sprintf("%d", config.Mainnet.Wallet_RPC_Default_Port)
 
 		if !globals.IsMainnet() {
