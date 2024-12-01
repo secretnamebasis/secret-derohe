@@ -78,7 +78,6 @@ Usage:
   --wallet-file=<file>               Use this file to restore or create new wallet.
   --password=<password>              Use this password to unlock the wallet.
   --offline                          Run the wallet in completely offline mode.
-  --offline_datafile=<file>          Use the data in offline mode (default: "getoutputs.bin" in the current dir).
   --prompt                           Disable menu and display prompt.
   --testnet                          Run in testnet mode.
   --debug                            Debug mode enabled, print log messages.
@@ -98,13 +97,9 @@ Usage:
   `
 	menu_mode bool = true // default display menu mode
 	//  account_valid bool = false                        // if an account has been opened, do not allow to create new account in this session
-	offline_mode     bool                   // whether we are in offline mode
-	sync_in_progress int                    //  whether sync is in progress with daemon
-	wallet           *walletapi.Wallet_Disk //= &walletapi.Account{} // all account  data is available here
+	offline_mode bool                   // whether we are in offline mode
+	wallet       *walletapi.Wallet_Disk //= &walletapi.Account{} // all account  data is available here
 	//  address string
-	sync_time time.Time // used to suitable update  prompt
-
-	default_offline_datafile string = "getoutputs.bin"
 
 	logger logr.Logger = logr.Discard() // default discard all logs
 
@@ -298,11 +293,6 @@ func main() {
 	prompt_mutex.Lock()
 	go update_prompt(l)
 	prompt_mutex.Unlock()
-
-	// if wallet has been opened in offline mode by commands supplied at command prompt
-	// trigger the offline scan
-
-	//	go trigger_offline_data_scan()
 
 	// start infinite loop processing user commands
 	for {
