@@ -73,7 +73,7 @@ func handle_easymenu_pre_open_command(l *readline.Instance, line string) {
 			if err != nil {
 				logger.Error(err, "Error occurred while opening wallet file", "filename", filename)
 				wallet = nil
-				break
+
 			} else { //  user knows the password and is db is valid
 				break
 			}
