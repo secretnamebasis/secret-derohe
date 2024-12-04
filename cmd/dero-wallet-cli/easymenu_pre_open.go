@@ -159,24 +159,6 @@ func handle_easymenu_pre_open_command(l *readline.Instance, line string) {
 		display_seed(l, wallet)
 		common_processing(wallet)
 		/*
-		   	case "5": // create new view only wallet // TODO user providing wrong key is not being validated, do it ASAP
-
-		   		filename := choose_file_name(l)
-		   		view_key_string := read_line_with_prompt(l, "Please enter your View Only Key ( hex 128 chars): ")
-
-		   		password := ReadConfirmedPassword(l, "Enter password", "Confirm password")
-		   		wallet, err = walletapi.Create_Encrypted_Wallet_ViewOnly(filename, password, view_key_string)
-
-		   		if err != nil {
-		   			globals.Logger.Warnf("Error while reconstructing view only wallet using view key err %s\n", err)
-		   			break
-		   		}
-
-		   		if globals.Arguments["--offline"].(bool) == true {
-		   			//offline_mode = true
-		   		} else {
-		   			wallet.SetOnlineMode()
-		   		}
 		           case "6": // create non deterministic wallet // TODO user providing wrong key is not being validated, do it ASAP
 
 		   		filename := choose_file_name(l)
